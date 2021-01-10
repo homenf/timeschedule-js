@@ -1,6 +1,10 @@
 import {fireAuth} from "./firebase"
 import {store} from '../src/main'
 
+export const createUser = (email, password) => {
+  return fireAuth.createUserWithEmailAndPassword(email, password)
+}
+
 export const signUserIn = (email, password) => {
   return fireAuth.signInWithEmailAndPassword(email, password);
 }

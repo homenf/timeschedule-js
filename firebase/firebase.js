@@ -17,6 +17,19 @@ var firebaseConfig = {
   measurementId: process.env.MEASUREMENT_ID
 };
 
-export const firebaseApp = firebase.initializeApp(firebaseConfig);
-export const firestore = firebase.firestore();
-export const fireAuth = firebase.auth();
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+const firestore = firebase.firestore();
+const fireAuth = firebase.auth();
+
+const usersCollection = firestore.collection('users')
+const eventsCollection = firestore.collection('events')
+const timesCollection = firestore.collection('times')
+
+export {
+  firebaseApp,
+  firestore,
+  fireAuth,
+  usersCollection,
+  eventsCollection,
+  timesCollection
+}

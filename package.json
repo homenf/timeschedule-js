@@ -17,6 +17,7 @@
     "save": "^2.4.0",
     "stackblur-canvas": "^2.4.0",
     "vue": "^2.5.2",
+    "vue-form": "^4.10.3",
     "vue-router": "^3.0.1",
     "vuex": "^3.6.0"
   },

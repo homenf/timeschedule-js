@@ -4,7 +4,7 @@
       <li> About </li>
       <li> {{currUser || "Not Signed In"}} </li>
       <li v-if="!atSignInRoute">
-        <button @click="userSignIn" v-if="!currUser">Sign in</button>
+        <button @click="userSignIn" v-if="!currUser">Sign in / Register</button>
         <button @click="userSignOut" v-else>Sign Out</button>
       </li>
     </ul>

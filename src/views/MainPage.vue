@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Main Page</h1>
-    <DrawingBoard> </DrawingBoard>
+    <Events> </Events>
     <h2> Functionality 2: Get and Set Firestore</h2>
     <button v-on:click="getName"> Get Name</button>
     <button v-on:click="setName"> Set Name </button>
@@ -11,10 +11,12 @@
 <script>
 import {firebaseApp, firestore} from '../../firebase/firebase'
 import DrawingBoard from "@/components/DrawingBoard.vue"
+import Events from "@/components/Events.vue"
+
 export default {
   name: 'MainPage',
   components: {
-    DrawingBoard,
+    Events,
   },
   methods: {
     getName () {
