@@ -3,6 +3,7 @@
 !.gitignore
 !.eslintrc.js
 !.babelrc
+!.firebaserc
 .DS_Store
 node_modules/
 dist/
