@@ -7,6 +7,10 @@
         <br>
         <input type="password" v-model="password" placeholder="Password">
         <br>
+        <input type="text" v-model="firstName" placeholder="first name">
+        <br>
+        <input type="password" v-model="lastName" placeholder="last name">
+        <br>
         <!-- <input type="password" v-model="confirmpassword" placeholder="Confirm password">
         <br> -->
         <button @click="registerUser">Register</button>
@@ -26,13 +30,15 @@ export default {
     return {
       email: "",
       password: "",
+      firstName: "",
+      lastName: "",
       message: "",
       firebaseData: null,
     }
   },
   methods: {
     async registerUser () {
-      createUser(this.email, this.password).then((user) => {
+      createUser(this.email, this.password, this.firstName, this.lastName).then((user) => {
         // Signed in 
         this.message = "Welcome :)";
         this.$router.push('/')

@@ -1,80 +1,52 @@
 <template>
   <div class='events'>
-    <div>
-      <h2>Here are your events</h2>
-        <button v-on:click="getAllEvents">Load Events</button>
-        <nav class="event-list"></nav>
-        <input type="text" v-model="name" placeholder="Event name">
-        <input type="text" v-model="description" placeholder="Description">
-        <button v-on:click="addEvent">New Event</button>
-    </div>
+    <h2>Here are your events</h2>
+    <h3> {{message}} </h3>
+    <EventCreator> </EventCreator>
+      <button v-on:click="getAllEvents">Load Events</button>
+      <ul id="event-list">
+        <Event v-for="event in events" :key="event.id" 
+          :id="event.id" :description="event.description" :timestamp="event.timestamp">
+        </Event>
+      </ul>
   </div>
 </template>
 
 <script>
-
 import {firebaseApp, firestore} from '../../firebase/firebase'
 import Event from "@/components/Event.vue"
+import EventCreator from "@/components/EventCreator.vue"
 
 export default {
   name: 'Events',
   components: {
     Event,
+    EventCreator,
   },
   data () {
     return {
-      name: '',
-      description: '',
-      timestamp: '',
+      events: [],
+      message: "",
     }
   },
   methods: {
-    addEvent () {
-      // Add a new document in collection "events"
-      const currentDate = new Date()
-      var time = currentDate.getTime()
-      time = time.toString()
-      time = time.slice(0, -3)
-      time = parseInt(time)
-      firestore.collection('events').doc(this.name).set({
-          description: this.description,
-          timestamp: time // UNIX time stamp (UTC)
-      })
-      .then(function() {
-          console.log("Document successfully written!");
-      })
-      .catch(function(error) {
-          console.error("Error writing document: ", error);
-      });
-    },
     getAllEvents () {
-      var output =
-      // [START get_multiple_all]
+      var self = this;
       firestore.collection("events").get().then(function(querySnapshot) {
-          querySnapshot.forEach(function(doc) {
-              // doc.data() is never undefined for query doc snapshots
-              const eventList = document.querySelector('.event-list')
-              const event = document.createElement("button")
-              event.onclick = displayEvent(); 
-              const e = document.createElement("div")
-              e.innerHTML = doc.id
-              const des = document.createElement("div")
-              des.innerHTML = doc.data().description
-              const timeCreated = document.createElement("div")
-              timeCreated.innerHTML = doc.data().timestamp
-              event.appendChild(e)
-              event.appendChild(des)
-              event.appendChild(timeCreated)
-              eventList.appendChild(event)
-              console.log(doc.id, " => ", doc.data());
+        self.message = "";
+        self.events = [];
+        querySnapshot.forEach(function(doc) {
+          const data = doc.data();
+          self.events.push({
+            id: data.id,
+            description: data.description,
+            timestamp: data.timestamp,
           });
+        })
+      }).catch(err => {
+        self.message = err;
       });
-      // [END get_multiple_all]
-      return output;
     },
-    displayEvent () {
-
-    }
   },
 }
   

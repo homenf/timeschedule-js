@@ -1,8 +1,14 @@
-import {fireAuth} from "./firebase"
+import {fireAuth, firestore} from "./firebase"
 import {store} from '../src/main'
 
-export const createUser = (email, password) => {
-  return fireAuth.createUserWithEmailAndPassword(email, password)
+export const createUser = async (email, password, firstName, lastName) => {
+  const {user} = await fireAuth.createUserWithEmailAndPassword(email, password);
+  return firestore.collection("users").doc(user.uid).set({
+    uid: user.uid,
+    email: user.email,
+    firstName: firstName,
+    lastName: lastName,
+  })
 }
 
 export const signUserIn = (email, password) => {
