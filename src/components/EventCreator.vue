@@ -6,8 +6,11 @@
     <h3> Participants: </h3>
     <div class="participants">
       <div class="participant" v-for="(p, idx) in participants" :key="p.email || 1">
-        <input v-model.lazy="p.email"> 
-        <button v-if="participants.length > 1" @click="deleteParticipant(idx)">Delete</button>
+        <div v-if="!p.hide">
+          <input v-model.lazy="p.email" v-on:blur="lookForUserName(idx)"> 
+          <span> {{p.name}} </span>
+          <button v-if="participants.length > 1" @click="deleteParticipant(idx)">Delete</button>
+        </div>
       </div>
     </div>
     <button @click="addParticipant">Add participant</button>
@@ -16,7 +19,7 @@
 </template>
 
 <script>
-import {firebaseApp, firestore} from '../../firebase/firebase'
+import {firebaseApp, firestore, emailsCollection} from '../../firebase/firebase'
 
 export default {
   name: 'EventCreator',
@@ -27,6 +30,8 @@ export default {
       message: "",
       participants: [{
         email: "",
+        name: "",
+        hide: false
       }],
     }
   },
@@ -50,11 +55,25 @@ export default {
         self.message = error;
       });
     },
-    addParticipant () {
+    addParticipant() {
       this.participants.push({email: ""});
     },
     deleteParticipant (idx) {
-      this.participants.splice(idx, 1);
+      this.participants[idx].hide = true;
+    },
+    lookForUserName(idx) {
+      if (!this.participants[idx].email) {
+        return;
+      }
+      emailsCollection.doc(this.participants[idx].email).get().then(snapshot => {
+        if (snapshot.data()) {
+          this.participants[idx].name = snapshot.data().name;
+        } else {
+          this.participants[idx].name = "new user";
+        }
+      }).catch(err => {
+        console.log(err);
+      })
     }
   },
 }

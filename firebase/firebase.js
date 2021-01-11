@@ -23,6 +23,7 @@ const fireAuth = firebase.auth();
 
 const usersCollection = firestore.collection('users')
 const eventsCollection = firestore.collection('events')
+const emailsCollection = firestore.collection('emails')
 const timesCollection = firestore.collection('times')
 
 export {
@@ -31,5 +32,6 @@ export {
   fireAuth,
   usersCollection,
   eventsCollection,
-  timesCollection
+  timesCollection,
+  emailsCollection,
 }
