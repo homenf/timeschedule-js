@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="event">
+    <div class="event" @click="goToEventSlot"> 
       <h2>Id: {{id}}</h2>
       <h2>Time: {{timestamp}} </h2>
       <h2>Description: {{description}} </h2>
@@ -22,6 +22,19 @@ export default {
     timestamp: Number,
     description: String,
   },
+  methods: {
+    goToEventSlot() {
+      this.$router.push({
+        name: 'EventSlot',
+        path: 'eventslot',
+        params: { 
+          id: this.id,
+          timestamp: this.timestamp,
+          description: this.description
+        }
+      })
+    }
+  }
 }
 </script>
 
